@@ -1,0 +1,47 @@
+<html lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link type="text/javascript" href="upload.js">
+    <title>Music Player</title>
+    <div class="player">
+        <audio id="music-player" src="vincent.mp3"></audio>
+        <div> 
+            <button onclick="document.getElementById('music-player').play()">Play</button> 
+            <button onclick="document.getElementById('music-player').pause()">Pause</button> 
+            <button onclick="document.getElementById('music-player').volume += 0.1">Vol +</button> 
+            <button onclick="document.getElementById('music-player').volume -= 0.1">Vol -</button> 
+        </div>
+        <div class="player__photo"></div>
+        <div class="player__music">
+            <div class="player__name"><strong>New Music</strong></div>
+            <div class="player__artist">Artist</div>
+        </div>
+        <ul class="player__bar">
+            <li><div class="player__nowtime">00:00</div></li>
+            <li><div class="player__progressbar">-</div></li>
+            <li><div class="player__endtime">06:00</div></li>
+        </ul>
+        <div class="player__menu">
+            <div class="player__volume">
+                <button class="player__less">Vol -</button>
+                <button class="player__plus">Vol +</button>
+            </div>
+            <button class="player__prev">Prev</button>
+            <button class="player__play">Play</button>
+            <button class="player__next">Next</button>
+            <div class="player__options">
+                <button class="player__playlist">Playlist</button>
+                <button class="player__next" type="file" id="newMusic">Upload</button>
+            </div>
+        </div>
+        <!-- <div class="player__playlist">
+            <div class="player__playlist--open">dkaskdaj</div>
+        </div>
+        <form class="player__upload">
+            <input type="file" id="music" name="filename">
+            <input type="submit" onclick="downloadMusic()">
+        </form> -->
+    </div>
+</html>
