@@ -3,45 +3,84 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="index.css">
-    <link type="text/javascript" href="upload.js">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Music Player</title>
     <div class="player">
-        <audio id="music-player" src="vincent.mp3"></audio>
-        <div> 
-            <button onclick="document.getElementById('music-player').play()">Play</button> 
-            <button onclick="document.getElementById('music-player').pause()">Pause</button> 
-            <button onclick="document.getElementById('music-player').volume += 0.1">Vol +</button> 
-            <button onclick="document.getElementById('music-player').volume -= 0.1">Vol -</button> 
-        </div>
+        <audio id="music-player" src="./music/Matuê - Máquina do Tempo.mp3"></audio>
         <div class="player__photo"></div>
         <div class="player__music">
-            <div class="player__name"><strong>New Music</strong></div>
-            <div class="player__artist">Artist</div>
+            <div class="player__name"><strong>Máquina do Tempo</strong></div>
+            <div class="player__artist">Matuê</div>
         </div>
         <ul class="player__bar">
-            <li><div class="player__nowtime">00:00</div></li>
-            <li><div class="player__progressbar">-</div></li>
-            <li><div class="player__endtime">06:00</div></li>
+            <li><div id="nowtime" class="player__nowtime">00:00</div></li>
+            <li><div class="player__progress">
+                <div class="player__range"></div>
+            </div></li>
+            <li><div id="endtime"class="player__endtime">00:00</div></li>
         </ul>
         <div class="player__menu">
             <div class="player__volume">
-                <button class="player__less">Vol -</button>
-                <button class="player__plus">Vol +</button>
+                <button class="player__vol" onclick="less()">
+                    <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="5" height="5" rx="2" fill="#020202"/>
+                        <line x1="1.5" y1="2.5" x2="3.5" y2="2.5" stroke="#C4C4C4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>                        
+                </button>
+                <button class="player__vol" onclick="more()">
+                    <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="5" height="5" rx="2" fill="#020202"/>
+                        <line x1="1.5" y1="2.5" x2="3.5" y2="2.5" stroke="#C4C4C4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="2.5" y1="3.5" x2="2.5" y2="1.5" stroke="#C4C4C4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>                     
+                </button>
             </div>
-            <button class="player__prev">Prev</button>
-            <button class="player__play">Play</button>
-            <button class="player__next">Next</button>
+            <button class="player__prevnext">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 16.732C1.66667 15.9622 1.66667 14.0377 3 13.2679L19.5 3.74167C20.8333 2.97187 22.5 3.93412 22.5 5.47372V24.5263C22.5 26.0659 20.8333 27.0281 19.5 26.2583L3 16.732Z" fill="#020202"/>
+                    <rect x="5" y="30" width="5" height="30" rx="2.5" transform="rotate(-180 5 30)" fill="#020202"/>
+                </svg>
+            </button>
+            <button id="play" class="player__play" onclick="play()">
+                <svg width="30" height="30" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="30" cy="30" r="30" fill="#020202"/>
+                <path d="M47 28.2679C48.3333 29.0377 48.3333 30.9622 47 31.732L23 45.5885C21.6667 46.3583 20 45.396 20 43.8564L20 16.1436C20 14.604 21.6667 13.6417 23 14.4115L47 28.2679Z" fill="#C4C4C4"/>
+                </svg>
+            </button>
+            <button id="pause" class="player__pause hidden" onclick="pause()">
+                <svg width="30" height="30" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" r="30" fill="#020202"/>
+                    <rect x="18" y="10" width="10" height="40" rx="5" fill="#C4C4C4"/>
+                    <rect x="33" y="10" width="10" height="40" rx="5" fill="#C4C4C4"/>
+                </svg>
+            </button>
+            <button class="player__prevnext">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M27 13.268C28.3333 14.0378 28.3333 15.9623 27 16.7321L10.5 26.2583C9.16667 27.0281 7.5 26.0659 7.5 24.5263L7.5 5.47372C7.5 3.93412 9.16667 2.97187 10.5 3.74167L27 13.268Z" fill="#020202"/>
+                    <rect x="25" width="5" height="30" rx="2.5" fill="#020202"/>
+                </svg>        
+            </button>
             <div class="player__options">
-                <button class="player__playlist">Playlist</button>
-                <button class="player__next" type="file" id="newMusic">Upload</button>
+                <button class="player__playlist">
+                    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="10.5" cy="10.5" r="2.5" fill="#020202"/>
+                        <rect width="10" height="2" rx="1" fill="#020202"/>
+                        <rect y="3" width="10" height="2" rx="1" fill="#020202"/>
+                        <rect y="6" width="8" height="2" rx="1" fill="#020202"/>
+                        <rect y="9" width="6" height="2" rx="1" fill="#020202"/>
+                        <rect x="12" width="2" height="2" rx="1" fill="#020202"/>
+                    </svg>     
+                </button>
+                <button class="player__upload" type="file" id="newMusic">
+                    <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect y="17" width="20" height="2" rx="1" fill="#020202"/>
+                        <rect x="18" y="12" width="2" height="7" rx="1" fill="#020202"/>
+                        <rect y="12" width="2" height="7" rx="1" fill="#020202"/>
+                        <path d="M10.7071 0.292893C10.3166 -0.0976315 9.68342 -0.0976315 9.29289 0.292893L2.92893 6.65685C2.53841 7.04738 2.53841 7.68054 2.92893 8.07107C3.31946 8.46159 3.95262 8.46159 4.34315 8.07107L10 2.41421L15.6569 8.07107C16.0474 8.46159 16.6805 8.46159 17.0711 8.07107C17.4616 7.68054 17.4616 7.04738 17.0711 6.65685L10.7071 0.292893ZM11 14V1H9V14H11Z" fill="black"/>
+                    </svg>    
+                </button>
             </div>
         </div>
-        <!-- <div class="player__playlist">
-            <div class="player__playlist--open">dkaskdaj</div>
-        </div>
-        <form class="player__upload">
-            <input type="file" id="music" name="filename">
-            <input type="submit" onclick="downloadMusic()">
-        </form> -->
     </div>
+    <script src="upload.js"></script>
 </html>

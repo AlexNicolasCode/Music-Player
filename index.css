@@ -34,10 +34,18 @@
     margin-top: 40px;
     padding: 0;
 }
-.player__progressbar {
+.player__progress {
     background: #959595;
+    height: 15px;
     border-radius: 50px;
     width: 360px;
+}
+.player__range {
+    background: #020202;
+    border-radius: 50px;
+    float: left;
+    height: 15px;
+    width: 0;
 }
 .player__menu {
     width: 90%;
@@ -49,26 +57,49 @@
     float: left;
     margin-right: 190px;
 }
-.player__less {
+.player__vol {
     display: inline-block;
-    background-color: #f2f2f2;
-}
-.player__plus {
-    display: inline-block;
-    background-color: #f2f2f2;
+    background: none;
+    border: none;
+    outline: none;
+    transform: scale(5);
+    margin-right: 27.5px;
 }
 .player__options {
     float: right;
-}
-.player__prev {
-    display: inline-block;
-    background-color: #f2f2f2;
+    transform: scale(1.5);
 }
 .player__play {
     display: inline-block;
-    background-color: #f2f2f2;
+    background: none;
+    border: none;
+    outline: none;
 }
-.player__next {
+.player__pause {
     display: inline-block;
-    background-color: #f2f2f2;
+    background: none;
+    border: none;
+    outline: none;
+}
+.player__prevnext {
+    display: inline-block;
+    background: none;
+    border: none;
+    outline: none;
+}
+.player__playlist {
+    display: inline-block;
+    background: none;
+    border: none;
+    outline: none;
+}
+.player__upload {
+    display: inline-block;
+    background: none;
+    border: none;
+    outline: none;
+    margin-left: 5px;
+}
+.hidden {
+    display: none;
 }
