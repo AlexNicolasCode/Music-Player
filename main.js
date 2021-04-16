@@ -6,7 +6,9 @@ function play() {
     player.play();
     btnPlay.classList.add('hidden');
     btnPause.classList.remove('hidden');
+
 }
+
 function pause() {
     player.pause();
     btnPause.classList.add('hidden');
@@ -20,6 +22,44 @@ function less() {
 function more() {
     player.volume += 0.2;
 }
+
+function getFile() {
+    document.getElementById("upfile").click();
+}
+
+function openPlaylist() {
+    document.getElementById('playlist-open').classList.remove('hidden');
+}
+
+function closePlaylis() {
+    document.getElementById('playlist-open').classList.add('hidden');
+}
+
+function upload(fileInput) {
+    let files = fileInput.files;
+
+    pause();
+    for (var i = 0; i < files.length; i++) {
+      document.getElementById('music').innerHTML = files[i].name.split('.mp3');  
+    }
+}
+
+function loadMusic(e) {
+}
+
+window.addEventListener('load', function() {
+    document.querySelector('input[type="file"]').addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            let music = document.getElementById('music-player');
+            music.onload = () => {
+                URL.revokeObjectURL(music.src);  // no longer needed, free memory
+            }
+            
+            music.src = URL.createObjectURL(this.files[0]); // set src to blob url
+        }
+    });
+});
+
 
 const toHHMMSS = function ( totalsecs ) {
     let sec_num = parseInt(totalsecs, 10); // don't forget the second param
@@ -36,8 +76,6 @@ const toHHMMSS = function ( totalsecs ) {
 }
 
 player.addEventListener("timeupdate", function() {
-    let nowTime = document.getElementById('player__nowtime');
-    let endTime = document.getElementById('player__endtime');
     let currentTime = player.currentTime;
     let duration = player.duration;
 

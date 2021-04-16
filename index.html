@@ -6,11 +6,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Music Player</title>
     <div class="player">
-        <audio id="music-player" src="./music/Matuê - Máquina do Tempo.mp3"></audio>
+        <audio id="music-player" src="#"></audio>
         <div class="player__photo"></div>
         <div class="player__music">
-            <div class="player__name"><strong>Máquina do Tempo</strong></div>
-            <div class="player__artist">Matuê</div>
+            <div id="music" class="player__name"><strong>New music</strong></div>
         </div>
         <ul class="player__bar">
             <li><div id="nowtime" class="player__nowtime">00:00</div></li>
@@ -61,7 +60,11 @@
                 </svg>        
             </button>
             <div class="player__options">
-                <button class="player__playlist">
+                <div id="playlist-open" class="player__playlist--open hidden">
+                    <button id="closePlaylist" onclick="closePlaylis()">x</button>
+                    <div id="grillo" class="playlist__musics">O Grillo</div>
+                </div>
+                <button class="player__playlist" onclick="openPlaylist()">
                     <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="10.5" cy="10.5" r="2.5" fill="#020202"/>
                         <rect width="10" height="2" rx="1" fill="#020202"/>
@@ -71,16 +74,19 @@
                         <rect x="12" width="2" height="2" rx="1" fill="#020202"/>
                     </svg>     
                 </button>
-                <button class="player__upload" type="file" id="newMusic">
-                    <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect y="17" width="20" height="2" rx="1" fill="#020202"/>
-                        <rect x="18" y="12" width="2" height="7" rx="1" fill="#020202"/>
-                        <rect y="12" width="2" height="7" rx="1" fill="#020202"/>
-                        <path d="M10.7071 0.292893C10.3166 -0.0976315 9.68342 -0.0976315 9.29289 0.292893L2.92893 6.65685C2.53841 7.04738 2.53841 7.68054 2.92893 8.07107C3.31946 8.46159 3.95262 8.46159 4.34315 8.07107L10 2.41421L15.6569 8.07107C16.0474 8.46159 16.6805 8.46159 17.0711 8.07107C17.4616 7.68054 17.4616 7.04738 17.0711 6.65685L10.7071 0.292893ZM11 14V1H9V14H11Z" fill="black"/>
-                    </svg>    
-                </button>
+                <div type="file" value="upload" class="player__upload" id="newMusic">
+                    <div onclick="getFile()">
+                        <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect y="17" width="20" height="2" rx="1" fill="#020202"/>
+                            <rect x="18" y="12" width="2" height="7" rx="1" fill="#020202"/>
+                            <rect y="12" width="2" height="7" rx="1" fill="#020202"/>
+                            <path d="M10.7071 0.292893C10.3166 -0.0976315 9.68342 -0.0976315 9.29289 0.292893L2.92893 6.65685C2.53841 7.04738 2.53841 7.68054 2.92893 8.07107C3.31946 8.46159 3.95262 8.46159 4.34315 8.07107L10 2.41421L15.6569 8.07107C16.0474 8.46159 16.6805 8.46159 17.0711 8.07107C17.4616 7.68054 17.4616 7.04738 17.0711 6.65685L10.7071 0.292893ZM11 14V1H9V14H11Z" fill="black"/>
+                        </svg>  
+                    </div>  
+                    <div style='height: 0px;width: 0px; overflow:hidden;'><input id="upfile" value="upload" type="file" multiple onchange="upload(this)"></div>
+                </div>
             </div>
         </div>
     </div>
-    <script src="upload.js"></script>
+    <script src="main.js"></script>
 </html>
