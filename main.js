@@ -6,7 +6,6 @@ function play() {
     player.play();
     btnPlay.classList.add('hidden');
     btnPause.classList.remove('hidden');
-
 }
 
 function pause() {
@@ -23,28 +22,59 @@ function more() {
     player.volume += 0.2;
 }
 
-function getFile() {
-    document.getElementById("upfile").click();
-}
-
 function openPlaylist() {
     document.getElementById('playlist-open').classList.remove('hidden');
 }
 
-function closePlaylis() {
+function closePlaylist() {
     document.getElementById('playlist-open').classList.add('hidden');
+}
+
+function loadMusic(files) {
+    if (this.files && this.files[0]) {
+        let music = document.getElementById('music-player');
+        music.onload = () => {
+            URL.revokeObjectURL(music.src);  // no longer needed, free memory
+        }
+        
+        music.src = URL.createObjectURL(this.files[0]); // set src to blob url
+        console.log(this.files[0].name); // set src to blob url
+    }
+}
+
+function getFile() {
+    document.getElementById("upfile").click();
 }
 
 function upload(fileInput) {
     let files = fileInput.files;
-
-    pause();
+    
     for (var i = 0; i < files.length; i++) {
-      document.getElementById('music').innerHTML = files[i].name.split('.mp3');  
-    }
-}
+        let fileName = files[i].name.split('.mp3');
+        let btn = document.createElement("button");
 
-function loadMusic(e) {
+        document.getElementById('music').innerHTML = fileName; 
+        btn.innerHTML = fileName;
+        btn.style.cssText = 'background: none; outline: none; border: none; margin-bottom: 10px';
+        btn.onclick = function PlayThis() {
+            if (files && files[0]) {
+                let music = document.getElementById('music-player');
+                music.onload = () => {
+                    URL.revokeObjectURL(music.src);  // no longer needed, free memory
+                }
+                
+                music.src = URL.createObjectURL(files[0]); // set src to blob url
+                console.log(files[0].name); // set src to blob url
+                document.getElementById('music').innerHTML = fileName; 
+            }
+
+            console.log(files);
+        };
+        document.getElementById('playlist').appendChild(btn);
+        
+        console.log("");
+    };
+    
 }
 
 window.addEventListener('load', function() {
@@ -56,6 +86,7 @@ window.addEventListener('load', function() {
             }
             
             music.src = URL.createObjectURL(this.files[0]); // set src to blob url
+            console.log(this.files[0].name); // set src to blob url
         }
     });
 });
