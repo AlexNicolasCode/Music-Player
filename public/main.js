@@ -48,6 +48,7 @@ function getFile() {
 
 function upload(fileInput) {
     let files = fileInput.files;
+    document.getElementById('submit').click();
     
     for (var i = 0; i < files.length; i++) {
         let fileName = files[i].name.split('.mp3');
@@ -60,20 +61,20 @@ function upload(fileInput) {
             if (files && files[0]) {
                 let music = document.getElementById('music-player');
                 music.onload = () => {
-                    URL.revokeObjectURL(music.src);  // no longer needed, free memory
+                    URL.revokeObjectURL(music.src);
                 }
                 
-                music.src = URL.createObjectURL(files[0]); // set src to blob url
-                console.log(files[0].name); // set src to blob url
-                document.getElementById('music').innerHTML = fileName; 
+                music.src = URL.createObjectURL(files[0]);
+                console.log(files[0].name);
+                document.getElementById('music').innerHTML = fileName;
+                player.play();
             }
-
+            
             console.log(files);
         };
         document.getElementById('playlist').appendChild(btn);
-        
-        console.log("");
     };
+
     
 }
 
@@ -87,6 +88,10 @@ window.addEventListener('load', function() {
             
             music.src = URL.createObjectURL(this.files[0]); // set src to blob url
             console.log(this.files[0].name); // set src to blob url
+
+            player.play();
+            btnPlay.classList.add('hidden');
+            btnPause.classList.remove('hidden');
         }
     });
 });

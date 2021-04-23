@@ -83,8 +83,11 @@
                             <path d="M10.7071 0.292893C10.3166 -0.0976315 9.68342 -0.0976315 9.29289 0.292893L2.92893 6.65685C2.53841 7.04738 2.53841 7.68054 2.92893 8.07107C3.31946 8.46159 3.95262 8.46159 4.34315 8.07107L10 2.41421L15.6569 8.07107C16.0474 8.46159 16.6805 8.46159 17.0711 8.07107C17.4616 7.68054 17.4616 7.04738 17.0711 6.65685L10.7071 0.292893ZM11 14V1H9V14H11Z" fill="black"/>
                         </svg>  
                     </div>  
-                    <form id="myForm">
-                        <div style='height: 0px; width: 0px; overflow: hidden;'><input id="upfile" type="file" name='fileUploaded' multiple onchange="upload(this)"></div>
+                    <form action="/" method="POST" enctype="multipart/form-data">
+                        <div style='height: 0px; width: 0px; overflow: hidden;'>
+                            <input id="upfile" type="file" name="file" multiple onchange="upload(this)">
+                            <input id="submit" type="submit" value="Upload">
+                        </div>
                     </form>
                 </div>
             </div>
