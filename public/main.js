@@ -2,6 +2,7 @@ const player = document.getElementById('music-player');
 const btnPlay = document.getElementById('play');
 const btnPause = document.getElementById('pause');
 
+// Play and Pause
 function play() {
     player.play();
     btnPlay.classList.add('hidden');
@@ -14,6 +15,7 @@ function pause() {
     btnPlay.classList.remove('hidden');
 }
 
+// Volume
 function less() {
     player.volume -= 0.2;
 }
@@ -22,6 +24,10 @@ function more() {
     player.volume += 0.2;
 }
 
+// Playlist array
+const playlist = []
+
+// Playlist
 function openPlaylist() {
     document.getElementById('playlist-open').classList.remove('hidden');
 }
@@ -32,13 +38,12 @@ function closePlaylist() {
 
 function loadMusic(files) {
     if (this.files && this.files[0]) {
-        let music = document.getElementById('music-player');
-        music.onload = () => {
-            URL.revokeObjectURL(music.src);  // no longer needed, free memory
+        player.onload = () => {
+            URL.revokeObjectURL(player.src);
         }
         
-        music.src = URL.createObjectURL(this.files[0]); // set src to blob url
-        console.log(this.files[0].name); // set src to blob url
+        player.src = URL.createObjectURL(this.files[0]);
+        console.log(this.files[0].name);
     }
 }
 
@@ -46,50 +51,62 @@ function getFile() {
     document.getElementById("upfile").click();
 }
 
+// Next
+var index=-1;
+function next() {
+    index++;
+    var music = listMusic[i];
+    if (playlist.length >= 0) {
+        playlist
+    }
+}
+
+
+// Upload file and create a new music at playlist
 function upload(fileInput) {
     let files = fileInput.files;
     document.getElementById('submit').click();
+    
+    playlist.push(files);
+    console.log(playlist);
     
     for (var i = 0; i < files.length; i++) {
         let fileName = files[i].name.split('.mp3');
         let btn = document.createElement("button");
 
+        // button build
         document.getElementById('music').innerHTML = fileName; 
         btn.innerHTML = fileName;
         btn.style.cssText = 'background: none; outline: none; border: none; margin-bottom: 10px';
+
         btn.onclick = function PlayThis() {
             if (files && files[0]) {
-                let music = document.getElementById('music-player');
-                music.onload = () => {
-                    URL.revokeObjectURL(music.src);
+                player.onload = () => {
+                    URL.revokeObjectURL(player.src);
                 }
                 
-                music.src = URL.createObjectURL(files[0]);
-                console.log(files[0].name);
+                player.src = URL.createObjectURL(files[0]);
+                console.log(files);
                 document.getElementById('music').innerHTML = fileName;
-                player.play();
             }
-            
             console.log(files);
         };
         document.getElementById('playlist').appendChild(btn);
-    };
-
-    
+    };    
 }
 
-window.addEventListener('load', function() {
+// Automatic load
+window.addEventListener('load', function() {""
     document.querySelector('input[type="file"]').addEventListener('change', function() {
         if (this.files && this.files[0]) {
             let music = document.getElementById('music-player');
             music.onload = () => {
-                URL.revokeObjectURL(music.src);  // no longer needed, free memory
+                URL.revokeObjectURL(music.src);
             }
             
-            music.src = URL.createObjectURL(this.files[0]); // set src to blob url
-            console.log(this.files[0].name); // set src to blob url
+            music.src = URL.createObjectURL(this.files[0]);
+            console.log(this.files[0].name);
 
-            player.play();
             btnPlay.classList.add('hidden');
             btnPause.classList.remove('hidden');
         }
@@ -97,8 +114,9 @@ window.addEventListener('load', function() {
 });
 
 
+// Time presets
 const toHHMMSS = function ( totalsecs ) {
-    let sec_num = parseInt(totalsecs, 10); // don't forget the second param
+    let sec_num = parseInt(totalsecs, 10);
     let hours   = Math.floor(sec_num / 3600);
     let minutes = Math.floor((sec_num - (hours * 3600)) / 60);
     let seconds = sec_num - (hours * 3600) - (minutes * 60);
