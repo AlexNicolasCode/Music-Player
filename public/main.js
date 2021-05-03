@@ -24,9 +24,6 @@ function more() {
     player.volume += 0.2;
 }
 
-// Playlist array
-const playlist = []
-
 // Playlist
 function openPlaylist() {
     document.getElementById('playlist-open').classList.remove('hidden');
@@ -36,7 +33,7 @@ function closePlaylist() {
     document.getElementById('playlist-open').classList.add('hidden');
 }
 
-function loadMusic(files) {
+function loadMusic() {
     if (this.files && this.files[0]) {
         player.onload = () => {
             URL.revokeObjectURL(player.src);
@@ -51,24 +48,46 @@ function getFile() {
     document.getElementById("upfile").click();
 }
 
-// Next
-var index=-1;
-function next() {
-    index++;
-    var music = listMusic[i];
-    if (playlist.length >= 0) {
-        playlist
+// Playlist array
+const list = [];
+
+function playlist() {
+    for(i = 0; i < list.length; i++) {  
+        var music = list[i];
+
+        player.onload = () => {
+            URL.revokeObjectURL(player.src);
+        }
+        
+        player.src = URL.createObjectURL(new Blob(music, {type: "application/mp3"}));
+        document.getElementById('music').innerHTML = music.name;
+
+        music.onended = function() {
+            i++;
+            console.log("This audio has ended");
+
+            // player.onload = () => {
+            //     URL.revokeObjectURL(player.src);
+            // }
+            
+            // player.src = URL.createObjectURL(music);  
+            // document.getElementById('music').innerHTML = fileName;
+        };
+    } 
+    
+    if (list.length == 0) {
+        document.getElementById('music').innerHTML = "Please, add a new music"; 
+        console.log("The audio has ended");        
     }
 }
-
 
 // Upload file and create a new music at playlist
 function upload(fileInput) {
     let files = fileInput.files;
     document.getElementById('submit').click();
     
-    playlist.push(files);
-    console.log(playlist);
+    list.push(files);
+    console.log(list);
     
     for (var i = 0; i < files.length; i++) {
         let fileName = files[i].name.split('.mp3');
@@ -77,34 +96,51 @@ function upload(fileInput) {
         // button build
         document.getElementById('music').innerHTML = fileName; 
         btn.innerHTML = fileName;
+        btn.id = fileName;
         btn.style.cssText = 'background: none; outline: none; border: none; margin-bottom: 10px';
 
-        btn.onclick = function PlayThis() {
+        btn.onclick = function playThis() {
             if (files && files[0]) {
                 player.onload = () => {
                     URL.revokeObjectURL(player.src);
                 }
                 
                 player.src = URL.createObjectURL(files[0]);
-                console.log(files);
                 document.getElementById('music').innerHTML = fileName;
             }
-            console.log(files);
+
+            // if (files && files[0]) {
+            //     player.onload = () => {
+            //         URL.revokeObjectURL(player.src);
+            //     }
+                
+            //     player.src = URL.createObjectURL(files[0]);
+            //     document.getElementById('music').innerHTML = fileName;
+            // }
+            
         };
         document.getElementById('playlist').appendChild(btn);
     };    
 }
 
+player.addEventListener('ended', function(){
+    if (list.length > 0) {
+
+    } else {
+        document.getElementById('music').innerHTML = "Please, add a new music"; 
+        console.log("The audio has ended");        
+    }
+});
+
 // Automatic load
 window.addEventListener('load', function() {""
     document.querySelector('input[type="file"]').addEventListener('change', function() {
         if (this.files && this.files[0]) {
-            let music = document.getElementById('music-player');
-            music.onload = () => {
-                URL.revokeObjectURL(music.src);
+            player.onload = () => {
+                URL.revokeObjectURL(player.src);
             }
             
-            music.src = URL.createObjectURL(this.files[0]);
+            player.src = URL.createObjectURL(this.files[0]);
             console.log(this.files[0].name);
 
             btnPlay.classList.add('hidden');
@@ -135,5 +171,6 @@ player.addEventListener("timeupdate", function() {
 
     document.getElementById('nowtime').innerHTML = toHHMMSS(currentTime);    
     document.getElementById('endtime').innerHTML = toHHMMSS(duration);    
+    $('.player__find-range').stop(true,true).animate({'marginLeft':(currentTime +.25)/duration*100+'%'},250,'linear');
     $('.player__range').stop(true,true).animate({'width':(currentTime +.25)/duration*100+'%'},250,'linear');
 });
