@@ -76,6 +76,11 @@ const listName = []
 function playlist() {
     let i = 0;
 
+    if (list.length == 0) {
+        document.getElementById('music').innerHTML = "Please, add a new music"; 
+        console.log("The audio has ended");        
+    }
+
     function next() {
         // Check for last audio file in the playlist
         if (i === list.length - 1) {
@@ -84,22 +89,25 @@ function playlist() {
             i++;
         }
 
-            // Change the audio element source
-            player.src = URL.createObjectURL(new Blob(list[i], {type: "application/mp3"}));
-            document.getElementById('music').innerHTML = listName[i];
-        }
+        // Change the audio element source
+        player.src = URL.createObjectURL(new Blob(list[i], {type: "application/mp3"}));
+        document.getElementById('music').innerHTML = listName[i];
+    }
         
-        if (player === null) {
-            throw "Playlist Player does not exists ...";
-        } else {
-            // Start the player
-            player.src = URL.createObjectURL(new Blob(list[i], {type: "application/mp3"}));
-            document.getElementById('music').innerHTML = listName[i];
+    if (player === null) {
+        throw "Playlist Player does not exists ...";
+    } else {
+        // Start the player
+        player.src = URL.createObjectURL(new Blob(list[i], {type: "application/mp3"}));
+        document.getElementById('music').innerHTML = listName[i];
 
 
-            // Listen for the music ended event, to play the next audio file
-            player.addEventListener('ended', next, false)
+        // Listen for the music ended event, to play the next audio file
+        player.addEventListener('ended', next, false)
     }  
+
+    document.getElementById("nextBtn").addEventListener("click", next, false);
+    document.getElementById("prevBtn").addEventListener("click", prev, false);
 }
 
 // Automatic load
