@@ -81,15 +81,21 @@ function playlist() {
         console.log("The audio has ended");        
     }
 
+    function prev() {
+        --i;
+
+        player.src = URL.createObjectURL(new Blob(list[i], {type: "application/mp3"}));
+        document.getElementById('music').innerHTML = listName[i];
+    }
+
     function next() {
-        // Check for last audio file in the playlist
         if (i === list.length - 1) {
             i = 0;
         } else {
             i++;
         }
 
-        // Change the audio element source
+                // Listen for the music ended event, to play the next audio file
         player.src = URL.createObjectURL(new Blob(list[i], {type: "application/mp3"}));
         document.getElementById('music').innerHTML = listName[i];
     }
@@ -125,17 +131,6 @@ window.addEventListener('load', function() {""
         }
     });
 });
-
-function loadMusic() {
-    if (this.files && this.files[0]) {
-        player.onload = () => {
-            URL.revokeObjectURL(player.src);
-        }
-        
-        player.src = URL.createObjectURL(this.files[0]);
-        console.log(this.files[0].name);
-    }
-}
 
 const toHHMMSS = function ( totalsecs ) {
     let sec_num = parseInt(totalsecs, 10);
