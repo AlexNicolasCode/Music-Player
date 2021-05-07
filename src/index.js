@@ -43,20 +43,17 @@ function upload(fileInput) {
     document.getElementById('submit').click();
     
     list.push(files);
-    console.log(list);
     
     for (var i = 0; i < files.length; i++) {
         let fileName = files[i].name.split('.mp3');
         let btn = document.createElement("button");
-
-        console.log(files[i])
-
+        listName.push(fileName);
 
         // button build
         document.getElementById('music').innerHTML = fileName; 
         btn.innerHTML = fileName;
         btn.id = fileName;
-        btn.style.cssText = 'background: none; outline: none; border: none; margin-bottom: 10px';
+        btn.style.cssText = 'background: none; outline: none; border: none; margin-bottom: 10px; width: 100%';
 
         btn.onclick = function playThis() {
             if (files && files[0]) {
@@ -66,17 +63,7 @@ function upload(fileInput) {
                 
                 player.src = URL.createObjectURL(files[0]);
                 document.getElementById('music').innerHTML = fileName;
-            }
-
-            // if (files && files[0]) {
-            //     player.onload = () => {
-            //         URL.revokeObjectURL(player.src);
-            //     }
-                
-            //     player.src = URL.createObjectURL(files[0]);
-            //     document.getElementById('music').innerHTML = fileName;
-            // }
-            
+            }            
         };
         document.getElementById('playlist').appendChild(btn);
     };    
@@ -84,40 +71,35 @@ function upload(fileInput) {
 
 // Playlist array
 const list = [];
+const listName = []
 
 function playlist() {
-    for (i = 0; i < list.length;) { 
-        let file = list[i];
-        
-        console.log(file)
+    let i = 0;
 
-        player.onload = () => {
-            URL.revokeObjectURL(player.src);
+    function next() {
+        // Check for last audio file in the playlist
+        if (i === list.length - 1) {
+            i = 0;
+        } else {
+            i++;
+        }
+
+            // Change the audio element source
+            player.src = URL.createObjectURL(new Blob(list[i], {type: "application/mp3"}));
+            document.getElementById('music').innerHTML = listName[i];
         }
         
-        player.src = URL.createObjectURL(new Blob(list[0], {type: "application/mp3"}));
-        document.getElementById('music').innerHTML = file;
+        if (player === null) {
+            throw "Playlist Player does not exists ...";
+        } else {
+            // Start the player
+            player.src = URL.createObjectURL(new Blob(list[i], {type: "application/mp3"}));
+            document.getElementById('music').innerHTML = listName[i];
 
-        player.onended = function() {
-            player.src = URL.createObjectURL(new Blob(list[i + 1], {type: "application/mp3"}));
-            console.log(file)
 
-            // ++i;
-            // console.log("This audio has ended");
-
-            // player.onload = () => {
-            //     URL.revokeObjectURL(player.src);
-            // }
-            
-            // player.src = URL.createObjectURL(music);  
-            // document.getElementById('music').innerHTML = fileName;
-        };
-    } 
-    
-    if (list.length == 0) {
-        document.getElementById('music').innerHTML = "Please, add a new music"; 
-        console.log("The audio has ended");        
-    }
+            // Listen for the music ended event, to play the next audio file
+            player.addEventListener('ended', next, false)
+    }  
 }
 
 // Automatic load
@@ -129,7 +111,6 @@ window.addEventListener('load', function() {""
             }
             
             player.src = URL.createObjectURL(this.files[0]);
-            console.log(this.files[0].name);
 
             btnPlay.classList.add('hidden');
             btnPause.classList.remove('hidden');
