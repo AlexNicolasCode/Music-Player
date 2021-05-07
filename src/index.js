@@ -24,13 +24,13 @@ function more() {
     player.volume += 0.2;
 }
 
-// Playlist
-function openPlaylist() {
-    document.getElementById('playlist-open').classList.remove('hidden');
+// List
+function openList() {
+    document.getElementById('list-open').classList.remove('hidden');
 }
 
-function closePlaylist() {
-    document.getElementById('playlist-open').classList.add('hidden');
+function closeList() {
+    document.getElementById('list-open').classList.add('hidden');
 }
 
 function getFile() {
@@ -65,11 +65,11 @@ function upload(fileInput) {
                 document.getElementById('music').innerHTML = fileName;
             }            
         };
-        document.getElementById('playlist').appendChild(btn);
+        document.getElementById('list').appendChild(btn);
     };    
 }
 
-// Playlist array
+// Playlist
 const list = [];
 const listName = []
 

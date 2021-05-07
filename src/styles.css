@@ -58,7 +58,7 @@ button {
     width: 0%;
 }
 
-.player__playlist {
+.player__list {
     background: #f2f2f2;
     position: absolute;
     padding: 10px;

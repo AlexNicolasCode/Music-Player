@@ -7,7 +7,6 @@
     <title>Music Player</title>
     <div class="player">
         <audio id="music-player" class="hidden" controls autoplay src="#"></audio>
-        <button onclick="playlist()">Playlist</button>
         <h1 id="music">New music</h1>
         <ul class="player__bar">
             <li id="nowtime" class="player__crrtime">00:00</li>
@@ -25,7 +24,7 @@
                     <img src="more.svg" alt="more volume">                    
                 </button>
             </li>
-            <li>
+            <li style="padding-left: 30px">
                 <button id="prevBtn">
                     <img src="prev.svg" alt="prev music">
                 </button>
@@ -40,12 +39,15 @@
                 </button>
             </li>
             <li class="player__options">
-                <div id="playlist-open" class="player__playlist hidden">
-                    <button id="closePlaylist" onclick="closePlaylist()">x</button>
-                    <div id="playlist"></div>
+                <button onclick="playlist()">
+                    <img src="playlist.svg" alt="play playlist">
+                </button>
+                <div id="list-open" class="player__list hidden">
+                    <button id="closeList" onclick="closeList()">x</button>
+                    <div id="list"></div>
                 </div>
-                <button onclick="openPlaylist()">
-                    <img src="playlist.svg" alt="open playlist">
+                <button onclick="openList()">
+                    <img src="list.svg" alt="open list">
                 </button>
                 <button onclick="getFile()">
                     <img src="upload.svg" alt="">
